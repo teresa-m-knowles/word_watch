@@ -6,13 +6,17 @@ let topWord;
 let frequency;
 
 $(document).ready(() => {
+  displayTop();
 
-  api.getTopWord()
+  function displayTop() {
+    api.getTopWord()
     .then(response => {
       topWord = Object.keys(response.word)[0]
       frequency = response.word[topWord]
       $('.word-count').text(`${topWord.toUpperCase()} Count: ${frequency}`)
     });
+
+  }
 
   $('#breakdown').click(function() {
     var text = $('#input').val();
@@ -22,7 +26,8 @@ $(document).ready(() => {
     for (i=0; i < words.length; i++) {
       api.sendWord(words[i])
         .then(response => {
-          console.log(response)
+          console.log(response);
+          displayTop();
         })
     }
   });
